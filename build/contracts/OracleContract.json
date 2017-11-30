@@ -1,0 +1,748 @@
+{
+  "contractName": "OracleContract",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "lastPriceETHUSD",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "GNOTokenAddress",
+          "type": "address"
+        }
+      ],
+      "name": "getETHPrice",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "getUSDETHPrice",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_DutchExchange",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
+  ],
+  "bytecode": "0x606060405260006001556000600260006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550341561005657600080fd5b60405160208061028f8339810160405280805190602001909190505080600260006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550506101cc806100c36000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680632ca4e2ba1461005c57806397cecb2514610085578063a3ca17b2146100d2575b600080fd5b341561006757600080fd5b61006f6100fb565b6040518082815260200191505060405180910390f35b341561009057600080fd5b6100bc600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610101565b6040518082815260200191505060405180910390f35b34156100dd57600080fd5b6100e5610196565b6040518082815260200191505060405180910390f35b60015481565b6000806000808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020541415151561015057600080fd5b6000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b60006001549050905600a165627a7a72305820b349a29b551c49d22280d22f1cedd01c2e8df07c55302485f37f59e88d454a5b0029",
+  "deployedBytecode": "0x606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680632ca4e2ba1461005c57806397cecb2514610085578063a3ca17b2146100d2575b600080fd5b341561006757600080fd5b61006f6100fb565b6040518082815260200191505060405180910390f35b341561009057600080fd5b6100bc600480803573ffffffffffffffffffffffffffffffffffffffff16906020019091905050610101565b6040518082815260200191505060405180910390f35b34156100dd57600080fd5b6100e5610196565b6040518082815260200191505060405180910390f35b60015481565b6000806000808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020541415151561015057600080fd5b6000808373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b60006001549050905600a165627a7a72305820b349a29b551c49d22280d22f1cedd01c2e8df07c55302485f37f59e88d454a5b0029",
+  "sourceMap": "26:606:3:-;;;121:1;93:29;;148:1;126:23;;;;;;;;;;;;;;;;;;;;154:93;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;228:14;214:13;;:28;;;;;;;;;;;;;;;;;;154:93;26:606;;;;;;",
+  "deployedSourceMap": "26:606:3:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;93:29;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;251:241;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;495:135;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;93:29;;;;:::o;251:241::-;315:4;445:1;416:10;:27;427:15;416:27;;;;;;;;;;;;;;;;:30;;408:39;;;;;;;;460:10;:27;471:15;460:27;;;;;;;;;;;;;;;;453:34;;251:241;;;:::o;495:135::-;539:4;610:15;;603:22;;495:135;:::o",
+  "source": "pragma solidity ^0.4.16;\n\ncontract OracleContract{\n\n  mapping (address => uint)lastPrices;\n  uint public lastPriceETHUSD=0;\n  address DutchExchange=0;\n\n  function OracleContract(address _DutchExchange) public{\n    DutchExchange=_DutchExchange;\n  }\n\n  function getETHPrice(address GNOTokenAddress) public\n  returns (uint)\n  {\n    // lastPrices[GNOTokenAddress]=DutchExchange.getlastPrice(GNOTokenAddress)\n    require(lastPrices[GNOTokenAddress]!=0);\n    return lastPrices[GNOTokenAddress];\n  }\n  function getUSDETHPrice() public\n  returns (uint){\n      // lastPricesETHUSD=calculatePricesFromOracles\n    return lastPriceETHUSD;\n  }\n}\n",
+  "sourcePath": "/home/josojo/gnosis/WIZ-GNO/contracts/OracleContract.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/home/josojo/gnosis/WIZ-GNO/contracts/OracleContract.sol",
+      "exportedSymbols": {
+        "OracleContract": [
+          759
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".16"
+          ]
+        },
+        "id": 710,
+        "name": "PragmaDirective",
+        "src": "0:24:3"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            759
+          ],
+          "name": "OracleContract",
+          "scope": 760
+        },
+        "children": [
+          {
+            "attributes": {
+              "constant": false,
+              "name": "lastPrices",
+              "scope": 759,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "mapping(address => uint256)",
+              "value": null,
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "type": "mapping(address => uint256)"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "address",
+                      "type": "address"
+                    },
+                    "id": 711,
+                    "name": "ElementaryTypeName",
+                    "src": "63:7:3"
+                  },
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 712,
+                    "name": "ElementaryTypeName",
+                    "src": "74:4:3"
+                  }
+                ],
+                "id": 713,
+                "name": "Mapping",
+                "src": "54:25:3"
+              }
+            ],
+            "id": 714,
+            "name": "VariableDeclaration",
+            "src": "54:35:3"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "name": "lastPriceETHUSD",
+              "scope": 759,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint",
+                  "type": "uint256"
+                },
+                "id": 715,
+                "name": "ElementaryTypeName",
+                "src": "93:4:3"
+              },
+              {
+                "attributes": {
+                  "argumentTypes": null,
+                  "hexvalue": "30",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "subdenomination": null,
+                  "token": "number",
+                  "type": "int_const 0",
+                  "value": "0"
+                },
+                "id": 716,
+                "name": "Literal",
+                "src": "121:1:3"
+              }
+            ],
+            "id": 717,
+            "name": "VariableDeclaration",
+            "src": "93:29:3"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "name": "DutchExchange",
+              "scope": 759,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "address",
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "address",
+                  "type": "address"
+                },
+                "id": 718,
+                "name": "ElementaryTypeName",
+                "src": "126:7:3"
+              },
+              {
+                "attributes": {
+                  "argumentTypes": null,
+                  "hexvalue": "30",
+                  "isConstant": false,
+                  "isLValue": false,
+                  "isPure": true,
+                  "lValueRequested": false,
+                  "subdenomination": null,
+                  "token": "number",
+                  "type": "int_const 0",
+                  "value": "0"
+                },
+                "id": 719,
+                "name": "Literal",
+                "src": "148:1:3"
+              }
+            ],
+            "id": 720,
+            "name": "VariableDeclaration",
+            "src": "126:23:3"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": true,
+              "modifiers": [
+                null
+              ],
+              "name": "OracleContract",
+              "payable": false,
+              "scope": 759,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_DutchExchange",
+                      "scope": 730,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 721,
+                        "name": "ElementaryTypeName",
+                        "src": "178:7:3"
+                      }
+                    ],
+                    "id": 722,
+                    "name": "VariableDeclaration",
+                    "src": "178:22:3"
+                  }
+                ],
+                "id": 723,
+                "name": "ParameterList",
+                "src": "177:24:3"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 724,
+                "name": "ParameterList",
+                "src": "208:0:3"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "=",
+                          "type": "address"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 720,
+                              "type": "address",
+                              "value": "DutchExchange"
+                            },
+                            "id": 725,
+                            "name": "Identifier",
+                            "src": "214:13:3"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 722,
+                              "type": "address",
+                              "value": "_DutchExchange"
+                            },
+                            "id": 726,
+                            "name": "Identifier",
+                            "src": "228:14:3"
+                          }
+                        ],
+                        "id": 727,
+                        "name": "Assignment",
+                        "src": "214:28:3"
+                      }
+                    ],
+                    "id": 728,
+                    "name": "ExpressionStatement",
+                    "src": "214:28:3"
+                  }
+                ],
+                "id": 729,
+                "name": "Block",
+                "src": "208:39:3"
+              }
+            ],
+            "id": 730,
+            "name": "FunctionDefinition",
+            "src": "154:93:3"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getETHPrice",
+              "payable": false,
+              "scope": 759,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "GNOTokenAddress",
+                      "scope": 750,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 731,
+                        "name": "ElementaryTypeName",
+                        "src": "272:7:3"
+                      }
+                    ],
+                    "id": 732,
+                    "name": "VariableDeclaration",
+                    "src": "272:23:3"
+                  }
+                ],
+                "id": 733,
+                "name": "ParameterList",
+                "src": "271:25:3"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 750,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 734,
+                        "name": "ElementaryTypeName",
+                        "src": "315:4:3"
+                      }
+                    ],
+                    "id": 735,
+                    "name": "VariableDeclaration",
+                    "src": "315:4:3"
+                  }
+                ],
+                "id": 736,
+                "name": "ParameterList",
+                "src": "314:6:3"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "tuple()",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_bool",
+                                  "typeString": "bool"
+                                }
+                              ],
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 2178,
+                              "type": "function (bool) pure",
+                              "value": "require"
+                            },
+                            "id": 737,
+                            "name": "Identifier",
+                            "src": "408:7:3"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "commonType": {
+                                "typeIdentifier": "t_uint256",
+                                "typeString": "uint256"
+                              },
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "operator": "!=",
+                              "type": "bool"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": true,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "type": "uint256"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 714,
+                                      "type": "mapping(address => uint256)",
+                                      "value": "lastPrices"
+                                    },
+                                    "id": 738,
+                                    "name": "Identifier",
+                                    "src": "416:10:3"
+                                  },
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 732,
+                                      "type": "address",
+                                      "value": "GNOTokenAddress"
+                                    },
+                                    "id": 739,
+                                    "name": "Identifier",
+                                    "src": "427:15:3"
+                                  }
+                                ],
+                                "id": 740,
+                                "name": "IndexAccess",
+                                "src": "416:27:3"
+                              },
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "hexvalue": "30",
+                                  "isConstant": false,
+                                  "isLValue": false,
+                                  "isPure": true,
+                                  "lValueRequested": false,
+                                  "subdenomination": null,
+                                  "token": "number",
+                                  "type": "int_const 0",
+                                  "value": "0"
+                                },
+                                "id": 741,
+                                "name": "Literal",
+                                "src": "445:1:3"
+                              }
+                            ],
+                            "id": 742,
+                            "name": "BinaryOperation",
+                            "src": "416:30:3"
+                          }
+                        ],
+                        "id": 743,
+                        "name": "FunctionCall",
+                        "src": "408:39:3"
+                      }
+                    ],
+                    "id": 744,
+                    "name": "ExpressionStatement",
+                    "src": "408:39:3"
+                  },
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 736
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 714,
+                              "type": "mapping(address => uint256)",
+                              "value": "lastPrices"
+                            },
+                            "id": 745,
+                            "name": "Identifier",
+                            "src": "460:10:3"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 732,
+                              "type": "address",
+                              "value": "GNOTokenAddress"
+                            },
+                            "id": 746,
+                            "name": "Identifier",
+                            "src": "471:15:3"
+                          }
+                        ],
+                        "id": 747,
+                        "name": "IndexAccess",
+                        "src": "460:27:3"
+                      }
+                    ],
+                    "id": 748,
+                    "name": "Return",
+                    "src": "453:34:3"
+                  }
+                ],
+                "id": 749,
+                "name": "Block",
+                "src": "323:169:3"
+              }
+            ],
+            "id": 750,
+            "name": "FunctionDefinition",
+            "src": "251:241:3"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getUSDETHPrice",
+              "payable": false,
+              "scope": 759,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 751,
+                "name": "ParameterList",
+                "src": "518:2:3"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 758,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint",
+                          "type": "uint256"
+                        },
+                        "id": 752,
+                        "name": "ElementaryTypeName",
+                        "src": "539:4:3"
+                      }
+                    ],
+                    "id": 753,
+                    "name": "VariableDeclaration",
+                    "src": "539:4:3"
+                  }
+                ],
+                "id": 754,
+                "name": "ParameterList",
+                "src": "538:6:3"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 754
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "overloadedDeclarations": [
+                            null
+                          ],
+                          "referencedDeclaration": 717,
+                          "type": "uint256",
+                          "value": "lastPriceETHUSD"
+                        },
+                        "id": 755,
+                        "name": "Identifier",
+                        "src": "610:15:3"
+                      }
+                    ],
+                    "id": 756,
+                    "name": "Return",
+                    "src": "603:22:3"
+                  }
+                ],
+                "id": 757,
+                "name": "Block",
+                "src": "544:86:3"
+              }
+            ],
+            "id": 758,
+            "name": "FunctionDefinition",
+            "src": "495:135:3"
+          }
+        ],
+        "id": 759,
+        "name": "ContractDefinition",
+        "src": "26:606:3"
+      }
+    ],
+    "id": 760,
+    "name": "SourceUnit",
+    "src": "0:633:3"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-11-30T22:32:24.816Z"
+}

@@ -1,0 +1,243 @@
+{
+  "contractName": "FeeDutchAuction",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "GNOTokenAddress",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_GNOTokenAddress",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
+  ],
+  "bytecode": "0x6060604052341561000f57600080fd5b60405160208061016183398101604052808051906020019091905050806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505060e78061007a6000396000f300606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063c1285d19146044575b600080fd5b3415604e57600080fd5b60546096565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a7230582032645bdf1c7d1f308bcbf2ee27da48eba07d1619aa712fee302841d4aff4a5d80029",
+  "deployedBytecode": "0x606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063c1285d19146044575b600080fd5b3415604e57600080fd5b60546096565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a7230582032645bdf1c7d1f308bcbf2ee27da48eba07d1619aa712fee302841d4aff4a5d80029",
+  "sourceMap": "28:163:1:-;;;89:100;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;168:16;152:15;;:32;;;;;;;;;;;;;;;;;;89:100;28:163;;;;;;",
+  "deployedSourceMap": "28:163:1:-;;;;;;;;;;;;;;;;;;;;;;;;55:30;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.16;\n\n\n\ncontract FeeDutchAuction{\n address public GNOTokenAddress;\n  function FeeDutchAuction(address _GNOTokenAddress) public{\n    GNOTokenAddress=_GNOTokenAddress;\n  }\n}\n",
+  "sourcePath": "/home/josojo/gnosis/WIZ-GNO/contracts/FeeDutchAuction.sol",
+  "ast": {
+    "attributes": {
+      "absolutePath": "/home/josojo/gnosis/WIZ-GNO/contracts/FeeDutchAuction.sol",
+      "exportedSymbols": {
+        "FeeDutchAuction": [
+          651
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".16"
+          ]
+        },
+        "id": 638,
+        "name": "PragmaDirective",
+        "src": "0:24:1"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            651
+          ],
+          "name": "FeeDutchAuction",
+          "scope": 652
+        },
+        "children": [
+          {
+            "attributes": {
+              "constant": false,
+              "name": "GNOTokenAddress",
+              "scope": 651,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "address",
+              "value": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "address",
+                  "type": "address"
+                },
+                "id": 639,
+                "name": "ElementaryTypeName",
+                "src": "55:7:1"
+              }
+            ],
+            "id": 640,
+            "name": "VariableDeclaration",
+            "src": "55:30:1"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "implemented": true,
+              "isConstructor": true,
+              "modifiers": [
+                null
+              ],
+              "name": "FeeDutchAuction",
+              "payable": false,
+              "scope": 651,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_GNOTokenAddress",
+                      "scope": 650,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 641,
+                        "name": "ElementaryTypeName",
+                        "src": "114:7:1"
+                      }
+                    ],
+                    "id": 642,
+                    "name": "VariableDeclaration",
+                    "src": "114:24:1"
+                  }
+                ],
+                "id": 643,
+                "name": "ParameterList",
+                "src": "113:26:1"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 644,
+                "name": "ParameterList",
+                "src": "146:0:1"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "=",
+                          "type": "address"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 640,
+                              "type": "address",
+                              "value": "GNOTokenAddress"
+                            },
+                            "id": 645,
+                            "name": "Identifier",
+                            "src": "152:15:1"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 642,
+                              "type": "address",
+                              "value": "_GNOTokenAddress"
+                            },
+                            "id": 646,
+                            "name": "Identifier",
+                            "src": "168:16:1"
+                          }
+                        ],
+                        "id": 647,
+                        "name": "Assignment",
+                        "src": "152:32:1"
+                      }
+                    ],
+                    "id": 648,
+                    "name": "ExpressionStatement",
+                    "src": "152:32:1"
+                  }
+                ],
+                "id": 649,
+                "name": "Block",
+                "src": "146:43:1"
+              }
+            ],
+            "id": 650,
+            "name": "FunctionDefinition",
+            "src": "89:100:1"
+          }
+        ],
+        "id": 651,
+        "name": "ContractDefinition",
+        "src": "28:163:1"
+      }
+    ],
+    "id": 652,
+    "name": "SourceUnit",
+    "src": "0:192:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2017-11-30T22:32:24.816Z"
+}
