@@ -337,4 +337,16 @@ library Math {
         require(safeToMul(a, b));
         return a * b;
     }
+    /// @dev Returns product if no overflow occurred
+    /// @param a First factor
+    /// @param b Second factor
+    /// @return Product
+    function min(uint a, uint b)
+        public
+        pure
+        returns (uint)
+    {
+        if(a<b) return a;
+        else return b;
+    }
 }

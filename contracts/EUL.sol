@@ -28,6 +28,8 @@ contract EUL is StandardToken{
 
   mapping (bytes32=>GNOLocker) LockedGNO;
   mapping (address=> uint) GNObalances;
+  uint public amountOfGNOLocked;                //tracks the amount of GNO currently locked down. Is used in calcIssueRate
+  uint public amountOfGNOLockedInitially;       //tracks the intial virtual amount of GNO locked down to ensure a smooth issueRate, when first locking is enabled
 
   //@dev: Constructor of the contract EUL, which sets variables and constructs FeeDutchAuction
   //@param: _GNOTokenAddress address of the GNO ERC20 tokens
@@ -48,13 +50,19 @@ contract EUL is StandardToken{
       require(LockedGNO[GNOLockHash].TimeOfLocking!=0);
       require(Token(GNOTokenAddress).transferFrom(msg.sender, this, amount));
 
-      uint issueRate=calcIssueRate();
+      //adjustment of counter of GNOlocked
+      if(amountOfGNOLockedInitially>0)amountOfGNOLockedInitially-=amount;
+      else amountOfGNOLockedInitially=0;
+      amountOfGNOLocked+=amount;
+
+      uint issueRate=calcIssueRate(amount);
+      //one thrid of Tokens is issued immediatly
       balances[msg.sender]+=issueRate*30/3;
       LockedGNO[GNOLockHash]=GNOLocker(
         msg.sender,
         nonce,
         amount,
-        now-now%5184000,
+        now-now%5184000,  // further EUL issuance is calculated in 5184000 sec[1 day] steps
         lockingPeriod,
         issueRate*2/3,now-now%5184000);
   }
@@ -65,6 +73,7 @@ contract EUL is StandardToken{
       require(LockedGNO[_GNOLockHash].TimeOfLocking+LockedGNO[_GNOLockHash].LockingPeriod>now);
       withdrawEUL(_GNOLockHash);
       uint amount=LockedGNO[_GNOLockHash].GNOLocked;
+      amountOfGNOLocked-=amount;
       delete LockedGNO[_GNOLockHash];
       Token(GNOTokenAddress).transfer(msg.sender,amount);
   }
@@ -82,6 +91,7 @@ contract EUL is StandardToken{
     require(LockedGNO[_GNOLockHash].sender==msg.sender);
     require(LockedGNO[_GNOLockHash].TimeOfLocking+LockedGNO[_GNOLockHash].LockingPeriod>now);
     withdrawEUL(_GNOLockHash);
+    LockedGNO[_GNOLockHash].GNOIssueRate=calcIssueRate(LockedGNO[_GNOLockHash].GNOLocked);
     balances[msg.sender]+=LockedGNO[_GNOLockHash].GNOIssueRate*30/3;
     LockedGNO[_GNOLockHash].TimeOfLocking=now-now%5184000;
   }
@@ -96,9 +106,11 @@ contract EUL is StandardToken{
   uint public sumOfBurnedGNOValuedInUSDInLast30Days;
   uint lastDayOfBurningDocumentationGNO;
 
-  //@dev: To be called from the Prediction markets and DutchX contracts to burn EUL
-  //@param: amount of EUL to be burned
-  function burnEUL(uint amount) public{
+  //@dev: To be called from the Prediction markets and DutchX contracts to burn EUL for paying fees. Depending on the allowance, different amounts will acutally be burned
+  //@param: maxAmount of EUL to be burned
+  //@return: acutal amount of burned EUL
+  function burnEUL(uint maxAmount) public returns (uint){
+    uint amount=Math.min(allowances[msg.sender][this],maxAmount);
     require(balances[msg.sender]>=amount);
     balances[msg.sender]-=amount;
     if((now/(5184000))%(30)==lastDayOfBurningDocumentation){
@@ -110,6 +122,7 @@ contract EUL is StandardToken{
       burnedEUL[(now/(5184000))%(30)]=amount;
       lastDayOfBurningDocumentation=(now/(5184000))%(30);
     }
+    return amount;
   }
 
   //@dev: To be called from the FeeDutchAuction to document the fees collected
@@ -130,7 +143,7 @@ contract EUL is StandardToken{
 
 /*internal functions */
 //@dev: calculates the issueRate
-  function calcIssueRate() internal
+  function calcIssueRate(uint amount) view internal 
   returns(uint){
       uint issueRate=0;
     if(sumOfEULBurndedLast30Days<sumOfBurnedGNOValuedInUSDInLast30Days*9){
@@ -142,7 +155,7 @@ contract EUL is StandardToken{
     else{
       issueRate=((sumOfEULBurndedLast30Days+sumOfBurnedGNOValuedInUSDInLast30Days)*20*9-totalSupply())/30;
     }
-    return issueRate;
+    return issueRate*amount/(amountOfGNOLockedInitially+amountOfGNOLocked+amount);
   }
 
 }
