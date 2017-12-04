@@ -22,7 +22,7 @@ library Math {
     /// @return e**x
     function exp(int x)
         public
-        constant
+        pure
         returns (uint)
     {
         // revert if x is > MAX_POWER, where
@@ -42,8 +42,7 @@ library Math {
         if (x >= 0) {
             shift = x / int(ONE);
             z = uint(x % int(ONE));
-        }
-        else {
+        } else {
             shift = x / int(ONE) - 1;
             z = ONE - uint(-x % int(ONE));
         }
@@ -97,9 +96,9 @@ library Math {
             if (result >> (256-shift) > 0)
                 return (2**256-1);
             return result << shift;
-        }
-        else
+        } else {
             return result >> (-shift);
+        }
     }
 
     /// @dev Returns natural logarithm value of given x
@@ -107,7 +106,7 @@ library Math {
     /// @return ln(x)
     function ln(uint x)
         public
-        constant
+        pure
         returns (int)
     {
         require(x > 0);
@@ -157,14 +156,14 @@ library Math {
     /// @return logarithmic value
     function floorLog2(uint x)
         public
-        constant
+        pure
         returns (int lo)
     {
         lo = -64;
         int hi = 193;
         // I use a shift here instead of / 2 because it floors instead of rounding towards 0
         int mid = (hi + lo) >> 1;
-        while((lo + 1) < hi) {
+        while ((lo + 1) < hi) {
             if (mid < 0 && x << uint(-mid) < ONE || mid >= 0 && x >> uint(mid) < ONE)
                 hi = mid;
             else
@@ -178,14 +177,15 @@ library Math {
     /// @return Maximum number
     function max(int[] nums)
         public
-        constant
-        returns (int max)
+        pure
+        returns (int maxNum)
     {
         require(nums.length > 0);
-        max = -2**255;
-        for (uint i = 0; i < nums.length; i++)
-            if (nums[i] > max)
-                max = nums[i];
+        maxNum = -2**255;
+        for (uint i = 0; i < nums.length; i++) {
+            if (nums[i] > maxNum)
+                maxNum = nums[i];
+        }
     }
 
     /// @dev Returns whether an add operation causes an overflow
@@ -194,7 +194,7 @@ library Math {
     /// @return Did no overflow occur?
     function safeToAdd(uint a, uint b)
         public
-        constant
+        pure
         returns (bool)
     {
         return a + b >= a;
@@ -206,7 +206,7 @@ library Math {
     /// @return Did no underflow occur?
     function safeToSub(uint a, uint b)
         public
-        constant
+        pure
         returns (bool)
     {
         return a >= b;
@@ -218,7 +218,7 @@ library Math {
     /// @return Did no overflow occur?
     function safeToMul(uint a, uint b)
         public
-        constant
+        pure
         returns (bool)
     {
         return b == 0 || a * b / b == a;
@@ -230,7 +230,7 @@ library Math {
     /// @return Sum
     function add(uint a, uint b)
         public
-        constant
+        pure
         returns (uint)
     {
         require(safeToAdd(a, b));
@@ -243,7 +243,7 @@ library Math {
     /// @return Difference
     function sub(uint a, uint b)
         public
-        constant
+        pure
         returns (uint)
     {
         require(safeToSub(a, b));
@@ -256,7 +256,7 @@ library Math {
     /// @return Product
     function mul(uint a, uint b)
         public
-        constant
+        pure
         returns (uint)
     {
         require(safeToMul(a, b));
@@ -269,7 +269,7 @@ library Math {
     /// @return Did no overflow occur?
     function safeToAdd(int a, int b)
         public
-        constant
+        pure
         returns (bool)
     {
         return (b >= 0 && a + b >= a) || (b < 0 && a + b < a);
@@ -281,7 +281,7 @@ library Math {
     /// @return Did no underflow occur?
     function safeToSub(int a, int b)
         public
-        constant
+        pure
         returns (bool)
     {
         return (b >= 0 && a - b <= a) || (b < 0 && a - b > a);
@@ -293,7 +293,7 @@ library Math {
     /// @return Did no overflow occur?
     function safeToMul(int a, int b)
         public
-        constant
+        pure
         returns (bool)
     {
         return (b == 0) || (a * b / b == a);
@@ -305,7 +305,7 @@ library Math {
     /// @return Sum
     function add(int a, int b)
         public
-        constant
+        pure
         returns (int)
     {
         require(safeToAdd(a, b));
@@ -318,7 +318,7 @@ library Math {
     /// @return Difference
     function sub(int a, int b)
         public
-        constant
+        pure
         returns (int)
     {
         require(safeToSub(a, b));
@@ -331,12 +331,13 @@ library Math {
     /// @return Product
     function mul(int a, int b)
         public
-        constant
+        pure
         returns (int)
     {
         require(safeToMul(a, b));
         return a * b;
     }
+
     /// @dev Returns product if no overflow occurred
     /// @param a First factor
     /// @param b Second factor
@@ -346,7 +347,9 @@ library Math {
         pure
         returns (uint)
     {
-        if(a<b) return a;
-        else return b;
+        if (a < b)
+            return a;
+        else
+            return b;
     }
 }
