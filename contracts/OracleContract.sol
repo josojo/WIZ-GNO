@@ -1,4 +1,4 @@
-pragma solidity ^0.4.16;
+pragma solidity ^0.4.18;
 
 contract OracleContract{
 
@@ -10,7 +10,7 @@ contract OracleContract{
     DutchExchange=_DutchExchange;
   }
 
-  function getETHPrice(address GNOTokenAddress) public
+  function getETHvsTokenPrice(address TokenAddress) public
   returns (uint)
   {
     // lastPrices[GNOTokenAddress]=DutchExchange.getlastPrice(GNOTokenAddress)
@@ -19,7 +19,7 @@ contract OracleContract{
   }
   function getUSDETHPrice() public
   returns (uint){
-      // lastPricesETHUSD=calculatePricesFromOracles
+    // lastPricesETHUSD=calculatePricesFromOracles();
     return lastPriceETHUSD;
   }
 }
