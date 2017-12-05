@@ -18,6 +18,7 @@ contract OWL is StandardToken {
     address public feeDutchAuctionAddress;
     address public oracleContract;
 
+
     struct GNOLocker {
         address sender;
         uint nonce;
@@ -67,6 +68,7 @@ contract OWL is StandardToken {
         uint issueRate = calcIssueRate(amount);
         //one thrid of Tokens is issued immediatly
         balances[msg.sender] += issueRate*lockingPeriod/3;
+
         LockedGNO[GNOLockHash] = GNOLocker(
             msg.sender,
             nonce,
@@ -88,6 +90,7 @@ contract OWL is StandardToken {
         uint amount = LockedGNO[_GNOLockHash].GNOLocked;
         amountOfGNOLocked -= amount;
         delete LockedGNO[_GNOLockHash];
+
         Token(GNOTokenAddress).transfer(msg.sender, amount);
     }
 
@@ -116,20 +119,20 @@ contract OWL is StandardToken {
 
     /******Burning functions of OWL and GNO******/
     // mapping Last30Days <-> BurnedOWL
-    mapping(uint=>uint) public burnedOWL;
-    uint public sumOfOWLBurndedLast30Days=0;
-    uint public lastDayOfBurningDocumentation;
-    // mapping Last30Days <-> BurnedGNOValuedInUSD
-    mapping(uint=>uint) public burnedGNOValuedInUSD;
-    uint public sumOfBurnedGNOValuedInUSDInLast30Days;
-    uint public lastDayOfBurningDocumentationGNO;
 
-    //@dev: To be called from the Prediction markets and DutchX contracts to burn OWL for paying fees.
-    // Depending on the allowance, different amounts will acutally be burned
-    //@param: maxAmount of OWL to be burned
-    //@return: acutal amount of burned OWL
-    function burnOWL(uint maxAmount) public returns (uint)
-    {
+    mapping(uint=>uint) burnedOWL;
+    uint public sumOfOWLBurndedLast30Days = 0;
+    uint lastDayOfBurningDocumentation;
+    // mapping Last30Days <-> BurnedGNOValuedInUSD
+    mapping(uint=>uint) burnedGNOValuedInUSD;
+    uint public sumOfBurnedGNOValuedInUSDInLast30Days;
+    uint lastDayOfBurningDocumentationGNO;
+
+    /// @dev To be called from the Prediction markets and DutchX contracts to burn OWL for paying fees.
+    /// Depending on the allowance, different amounts will acutally be burned
+    /// @param maxAmount of OWL to be burned
+    /// @return acutal amount of burned OWL
+    function burnOWL(uint maxAmount) public returns (uint) {
         uint amount=Math.min(allowances[msg.sender][this], maxAmount); // Here delegate calls need to be used
         require(balances[msg.sender] >= amount);
         transferFrom(msg.sender, this, amount);
@@ -163,9 +166,9 @@ contract OWL is StandardToken {
     /*internal functions */
     //@dev: calculates the issueRate
     function calcIssueRate(uint amount) internal view 
-    returns(uint)
+        returns(uint)
     {
-        uint issueRate=0;
+        uint issueRate = 0;
         if (sumOfOWLBurndedLast30Days < sumOfBurnedGNOValuedInUSDInLast30Days*9) {
             issueRate = ((sumOfOWLBurndedLast30Days + sumOfBurnedGNOValuedInUSDInLast30Days)*20-totalSupply())/30;
         } else if (sumOfOWLBurndedLast30Days < sumOfBurnedGNOValuedInUSDInLast30Days) { 
