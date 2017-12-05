@@ -54,7 +54,7 @@ contract OWL is StandardToken {
     function lockGNO(uint amount, uint nonce, uint lockingPeriod) public
     {
         bytes32 GNOLockHash = keccak256(amount, nonce, lockingPeriod);
-        require(LockedGNO[GNOLockHash].TimeOfLocking != 0);
+        require(lockedGNO[GNOLockHash].timeOfLocking != 0);
         require(Token(GNOTokenAddress).transferFrom(msg.sender, this, amount));
 
         //adjustment of counter of GNOlocked
@@ -69,27 +69,27 @@ contract OWL is StandardToken {
         //one thrid of Tokens is issued immediatly
         balances[msg.sender] += issueRate*lockingPeriod/3;
 
-        LockedGNO[GNOLockHash] = GNOLocker(
+        lockedGNO[GNOLockHash] = GNOLocker(
             msg.sender,
             nonce,
             amount,
-            now-(now%day),  // further OWL issuance is calculated in 5184000 sec[1 day] steps
+            now-(now%(1 days)),  // further OWL issuance is calculated in 5184000 sec[1 (1 days)] steps
             lockingPeriod,
             issueRate*2/3,
-            now-(now%day);
+            now-(now%(1 days)));
     }
 
     //@dev: Allows GNO holders with locked GNO to unlock their GNO
     //@param: _GNOLockHash of their Locked GNO
     function unlockGNO(bytes32 _GNOLockHash) public 
     {
-        require(LockedGNO[_GNOLockHash].sender == msg.sender);
-        require(LockedGNO[_GNOLockHash].TimeOfLocking + LockedGNO[_GNOLockHash].LockingPeriod < now);
+        require(lockedGNO[_GNOLockHash].sender == msg.sender);
+        require(lockedGNO[_GNOLockHash].timeOfLocking + lockedGNO[_GNOLockHash].lockingPeriod < now);
 
         withdrawOWL(_GNOLockHash);
-        uint amount = LockedGNO[_GNOLockHash].GNOLocked;
+        uint amount = lockedGNO[_GNOLockHash].GNOLocked;
         amountOfGNOLocked -= amount;
-        delete LockedGNO[_GNOLockHash];
+        delete lockedGNO[_GNOLockHash];
 
         Token(GNOTokenAddress).transfer(msg.sender, amount);
     }
@@ -98,10 +98,10 @@ contract OWL is StandardToken {
     //@param: _GNOLockHash of their Locked GNO
     function withdrawOWL(bytes32 _lockHash) public
     {
-        require(msg.sender == LockedGNO[_lockHash].sender);
+        require(msg.sender == lockedGNO[_lockHash].sender);
         
-        balances[msg.sender] += (now-LockedGNO[_lockHash].timeOfLastWithdraw)/(day)*LockedGNO[_lockHash].GNOIssueRate;
-        LockedGNO[_lockHash].timeOfLastWithdraw = now-(now%day)+day;
+        balances[msg.sender] += (now-lockedGNO[_lockHash].timeOfLastWithdraw)/((1 days))*lockedGNO[_lockHash].GNOIssueRate;
+        lockedGNO[_lockHash].timeOfLastWithdraw = now-(now%(1 days))+(1 days);
     }
 
     //@dev: Allows GNO holders with locked GNO to relock their GNOTokens
@@ -109,24 +109,23 @@ contract OWL is StandardToken {
     //@param: lockingPeriod for the next locking
     function relockGNO(bytes32 _GNOLockHash) public
     {
-        require(LockedGNO[_GNOLockHash].sender == msg.sender);
-        require(LockedGNO[_GNOLockHash].TimeOfLocking + LockedGNO[_GNOLockHash].LockingPeriod < now);
-        withdrawOwl(_GNOLockHash);
-        LockedGNO[_GNOLockHash].GNOIssueRate = calcIssueRate(LockedGNO[_GNOLockHash].GNOLocked);
-        balances[msg.sender] += LockedGNO[_GNOLockHash].GNOIssueRate*LockedGNO[_GNOLockHash].LockingPeriod/3;
-        LockedGNO[_GNOLockHash].TimeOfLocking = now-(now%day);
+        require(lockedGNO[_GNOLockHash].sender == msg.sender);
+        require(lockedGNO[_GNOLockHash].timeOfLocking + lockedGNO[_GNOLockHash].lockingPeriod < now);
+        withdrawOWL(_GNOLockHash);
+        lockedGNO[_GNOLockHash].GNOIssueRate = calcIssueRate(lockedGNO[_GNOLockHash].GNOLocked);
+        balances[msg.sender] += lockedGNO[_GNOLockHash].GNOIssueRate*lockedGNO[_GNOLockHash].lockingPeriod/3;
+        lockedGNO[_GNOLockHash].timeOfLocking = now-(now%(1 days));
     }
 
     /******Burning functions of OWL and GNO******/
-    // mapping Last30Days <-> BurnedOWL
-
-    mapping(uint=>uint) burnedOWL;
-    uint public sumOfOWLBurndedLast30Days = 0;
-    uint lastDayOfBurningDocumentation;
-    // mapping Last30Days <-> BurnedGNOValuedInUSD
-    mapping(uint=>uint) burnedGNOValuedInUSD;
-    uint public sumOfBurnedGNOValuedInUSDInLast30Days;
-    uint lastDayOfBurningDocumentationGNO;
+    // mapping Last30(1 days)s <-> BurnedOWL
+    mapping (uint=>uint) public burnedOWL;
+    uint public sumOfOWLBurndedLast30days = 0;
+    uint public lastdayOfBurningDocumentation;
+    // mapping Last30(1 days)s <-> BurnedGNOValuedInUSD
+    mapping (uint=>uint) public burnedGNOValuedInUSD;
+    uint public sumOfBurnedGNOValuedInUSDInLast30days;
+    uint public lastdayOfBurningDocumentationGNO;
 
     /// @dev To be called from the Prediction markets and DutchX contracts to burn OWL for paying fees.
     /// Depending on the allowance, different amounts will acutally be burned
@@ -136,13 +135,13 @@ contract OWL is StandardToken {
         uint amount=Math.min(allowances[msg.sender][this], maxAmount); // Here delegate calls need to be used
         require(balances[msg.sender] >= amount);
         transferFrom(msg.sender, this, amount);
-        if ((now/day)%(30) == lastDayOfBurningDocumentation) {
-            burnedOWL[(now/(day))%(30)] += amount;
+        if ((now/(1 days))%(30) == lastdayOfBurningDocumentation) {
+            burnedOWL[(now/((1 days)))%(30)] += amount;
         } else {
-            sumOfOWLBurndedLast30Days += burnedOWL[(now/day-1)%30];
-            sumOfOWLBurndedLast30Days -= burnedOWL[(now/day)%30];
-            burnedOWL[(now/day)%30] = amount;
-            lastDayOfBurningDocumentation = (now/day)%30;
+            sumOfOWLBurndedLast30days += burnedOWL[(now/(1 days)-1)%30];
+            sumOfOWLBurndedLast30days -= burnedOWL[(now/(1 days))%30];
+            burnedOWL[(now/(1 days))%30] = amount;
+            lastdayOfBurningDocumentation = (now/(1 days))%30;
         }
         return amount;
     }
@@ -152,14 +151,14 @@ contract OWL is StandardToken {
     function burnedGNO(uint amount) public
     {
         require(Token(GNOTokenAddress).transferFrom(msg.sender, this, amount));
-        uint b=amount*OracleContract(oracleContract).getETHPrice(GNOTokenAddress)*OracleContract(oracleContract).getUSDETHPrice();
-        if ((now/day)%30 == lastDayOfBurningDocumentationGNO) {
-            burnedGNOValuedInUSD[(now/day)%30] += b;
+        uint b=amount*OracleContract(oracleContract).getETHvsTokenPrice(GNOTokenAddress)*OracleContract(oracleContract).getUSDETHPrice();
+        if ((now/(1 days))%30 == lastdayOfBurningDocumentationGNO) {
+            burnedGNOValuedInUSD[(now/(1 days))%30] += b;
         } else {
-            sumOfBurnedGNOValuedInUSDInLast30Days += burnedGNOValuedInUSD[(now/day-1)%30];
-            sumOfBurnedGNOValuedInUSDInLast30Days -= burnedGNOValuedInUSD[(now/day)%30];
-            burnedGNOValuedInUSD[(now/day)%30] = b;
-            lastDayOfBurningDocumentationGNO = (now/day)%30;
+            sumOfBurnedGNOValuedInUSDInLast30days += burnedGNOValuedInUSD[(now/(1 days)-1)%30];
+            sumOfBurnedGNOValuedInUSDInLast30days -= burnedGNOValuedInUSD[(now/(1 days))%30];
+            burnedGNOValuedInUSD[(now/(1 days))%30] = b;
+            lastdayOfBurningDocumentationGNO = (now/(1 days))%30;
         }
     }
 
@@ -169,12 +168,12 @@ contract OWL is StandardToken {
         returns(uint)
     {
         uint issueRate = 0;
-        if (sumOfOWLBurndedLast30Days < sumOfBurnedGNOValuedInUSDInLast30Days*9) {
-            issueRate = ((sumOfOWLBurndedLast30Days + sumOfBurnedGNOValuedInUSDInLast30Days)*20-totalSupply())/30;
-        } else if (sumOfOWLBurndedLast30Days < sumOfBurnedGNOValuedInUSDInLast30Days) { 
-            issueRate = ((sumOfOWLBurndedLast30Days + sumOfBurnedGNOValuedInUSDInLast30Days)*20*9*sumOfBurnedGNOValuedInUSDInLast30Days/sumOfOWLBurndedLast30Days-totalSupply())/30;
+        if (sumOfOWLBurndedLast30days < sumOfBurnedGNOValuedInUSDInLast30days*9) {
+            issueRate = ((sumOfOWLBurndedLast30days + sumOfBurnedGNOValuedInUSDInLast30days)*20-totalSupply())/30;
+        } else if (sumOfOWLBurndedLast30days < sumOfBurnedGNOValuedInUSDInLast30days) { 
+            issueRate = ((sumOfOWLBurndedLast30days + sumOfBurnedGNOValuedInUSDInLast30days)*20*9*sumOfBurnedGNOValuedInUSDInLast30days/sumOfOWLBurndedLast30days-totalSupply())/30;
         } else {
-            issueRate = ((sumOfOWLBurndedLast30Days+sumOfBurnedGNOValuedInUSDInLast30Days)*20*9-totalSupply())/30;
+            issueRate = ((sumOfOWLBurndedLast30days+sumOfBurnedGNOValuedInUSDInLast30days)*20*9-totalSupply())/30;
         }
         return issueRate*amount/(amountOfGNOLockedInitially+amountOfGNOLocked+amount);
     }

@@ -27,18 +27,18 @@
       "type": "constructor"
     }
   ],
-  "bytecode": "0x6060604052341561000f57600080fd5b60405160208061016183398101604052808051906020019091905050806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505060e78061007a6000396000f300606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063c1285d19146044575b600080fd5b3415604e57600080fd5b60546096565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a7230582032645bdf1c7d1f308bcbf2ee27da48eba07d1619aa712fee302841d4aff4a5d80029",
-  "deployedBytecode": "0x606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063c1285d19146044575b600080fd5b3415604e57600080fd5b60546096565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a7230582032645bdf1c7d1f308bcbf2ee27da48eba07d1619aa712fee302841d4aff4a5d80029",
-  "sourceMap": "28:163:1:-;;;89:100;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;168:16;152:15;;:32;;;;;;;;;;;;;;;;;;89:100;28:163;;;;;;",
-  "deployedSourceMap": "28:163:1:-;;;;;;;;;;;;;;;;;;;;;;;;55:30;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
-  "source": "pragma solidity ^0.4.16;\n\n\n\ncontract FeeDutchAuction{\n address public GNOTokenAddress;\n  function FeeDutchAuction(address _GNOTokenAddress) public{\n    GNOTokenAddress=_GNOTokenAddress;\n  }\n}\n",
+  "bytecode": "0x6060604052341561000f57600080fd5b60405160208061016183398101604052808051906020019091905050806000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff1602179055505060e78061007a6000396000f300606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063c1285d19146044575b600080fd5b3415604e57600080fd5b60546096565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a72305820b465baa547f1f2f06584f70119b8213900a48ea250126ce5d4078d5687b277970029",
+  "deployedBytecode": "0x606060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063c1285d19146044575b600080fd5b3415604e57600080fd5b60546096565b604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390f35b6000809054906101000a900473ffffffffffffffffffffffffffffffffffffffff16815600a165627a7a72305820b465baa547f1f2f06584f70119b8213900a48ea250126ce5d4078d5687b277970029",
+  "sourceMap": "27:179:0:-;;;95:109;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;181:16;163:15;;:34;;;;;;;;;;;;;;;;;;95:109;27:179;;;;;;",
+  "deployedSourceMap": "27:179:0:-;;;;;;;;;;;;;;;;;;;;;;;;58:30;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.16;\n\n\ncontract FeeDutchAuction {\n    address public GNOTokenAddress;\n\n    function FeeDutchAuction(address _GNOTokenAddress) public {\n        GNOTokenAddress = _GNOTokenAddress;\n    }\n}\n",
   "sourcePath": "/home/josojo/gnosis/WIZ-GNO/contracts/FeeDutchAuction.sol",
   "ast": {
     "attributes": {
       "absolutePath": "/home/josojo/gnosis/WIZ-GNO/contracts/FeeDutchAuction.sol",
       "exportedSymbols": {
         "FeeDutchAuction": [
-          716
+          14
         ]
       }
     },
@@ -52,9 +52,9 @@
             ".16"
           ]
         },
-        "id": 703,
+        "id": 1,
         "name": "PragmaDirective",
-        "src": "0:24:1"
+        "src": "0:24:0"
       },
       {
         "attributes": {
@@ -68,17 +68,17 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            716
+            14
           ],
           "name": "FeeDutchAuction",
-          "scope": 717
+          "scope": 15
         },
         "children": [
           {
             "attributes": {
               "constant": false,
               "name": "GNOTokenAddress",
-              "scope": 716,
+              "scope": 14,
               "stateVariable": true,
               "storageLocation": "default",
               "type": "address",
@@ -91,14 +91,14 @@
                   "name": "address",
                   "type": "address"
                 },
-                "id": 704,
+                "id": 2,
                 "name": "ElementaryTypeName",
-                "src": "55:7:1"
+                "src": "58:7:0"
               }
             ],
-            "id": 705,
+            "id": 3,
             "name": "VariableDeclaration",
-            "src": "55:30:1"
+            "src": "58:30:0"
           },
           {
             "attributes": {
@@ -110,7 +110,7 @@
               ],
               "name": "FeeDutchAuction",
               "payable": false,
-              "scope": 716,
+              "scope": 14,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -122,7 +122,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_GNOTokenAddress",
-                      "scope": 715,
+                      "scope": 13,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -135,19 +135,19 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 706,
+                        "id": 4,
                         "name": "ElementaryTypeName",
-                        "src": "114:7:1"
+                        "src": "120:7:0"
                       }
                     ],
-                    "id": 707,
+                    "id": 5,
                     "name": "VariableDeclaration",
-                    "src": "114:24:1"
+                    "src": "120:24:0"
                   }
                 ],
-                "id": 708,
+                "id": 6,
                 "name": "ParameterList",
-                "src": "113:26:1"
+                "src": "119:26:0"
               },
               {
                 "attributes": {
@@ -156,9 +156,9 @@
                   ]
                 },
                 "children": [],
-                "id": 709,
+                "id": 7,
                 "name": "ParameterList",
-                "src": "146:0:1"
+                "src": "153:0:0"
               },
               {
                 "children": [
@@ -181,13 +181,13 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 705,
+                              "referencedDeclaration": 3,
                               "type": "address",
                               "value": "GNOTokenAddress"
                             },
-                            "id": 710,
+                            "id": 8,
                             "name": "Identifier",
-                            "src": "152:15:1"
+                            "src": "163:15:0"
                           },
                           {
                             "attributes": {
@@ -195,43 +195,43 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 707,
+                              "referencedDeclaration": 5,
                               "type": "address",
                               "value": "_GNOTokenAddress"
                             },
-                            "id": 711,
+                            "id": 9,
                             "name": "Identifier",
-                            "src": "168:16:1"
+                            "src": "181:16:0"
                           }
                         ],
-                        "id": 712,
+                        "id": 10,
                         "name": "Assignment",
-                        "src": "152:32:1"
+                        "src": "163:34:0"
                       }
                     ],
-                    "id": 713,
+                    "id": 11,
                     "name": "ExpressionStatement",
-                    "src": "152:32:1"
+                    "src": "163:34:0"
                   }
                 ],
-                "id": 714,
+                "id": 12,
                 "name": "Block",
-                "src": "146:43:1"
+                "src": "153:51:0"
               }
             ],
-            "id": 715,
+            "id": 13,
             "name": "FunctionDefinition",
-            "src": "89:100:1"
+            "src": "95:109:0"
           }
         ],
-        "id": 716,
+        "id": 14,
         "name": "ContractDefinition",
-        "src": "28:163:1"
+        "src": "27:179:0"
       }
     ],
-    "id": 717,
+    "id": 15,
     "name": "SourceUnit",
-    "src": "0:192:1"
+    "src": "0:207:0"
   },
   "compiler": {
     "name": "solc",
@@ -239,5 +239,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-12-04T06:54:41.310Z"
+  "updatedAt": "2017-12-05T06:54:37.569Z"
 }
